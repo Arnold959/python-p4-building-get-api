@@ -3,7 +3,8 @@ from flask import Flask, jsonify, make_response
 from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
 
-from models import db, User, Review, Game
+from models import db, User, Review, Game, SerializerMixin
+import config, game
 
 app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///app.db'
@@ -46,12 +47,12 @@ def game_by_id(id):
     game_dict = game.to_dict()
 
     response = make_response(
+        # it still needs to be JSON, after all
         jsonify(game_dict),
         200
     )
     response.headers["Content-Type"] = "application/json"
 
     return response
-
 if __name__ == '__main__':
     app.run(port=5555)
